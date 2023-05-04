@@ -1,0 +1,12 @@
+{
+  "name": "nutanix-discover.js",
+  "version": "0.1",
+  "main": "main.js",
+  "author": "35425506+slysiou@users.noreply.github.com",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3"
+  }
+}
