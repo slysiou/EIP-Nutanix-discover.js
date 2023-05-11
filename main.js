@@ -102,7 +102,7 @@ const main = async () => {
 
     // Generate file
     try {
-        const fd = fs.openSync(`./${process.env.EIP_UUID}-${start}.json`, 'w')
+        const fd = fs.openSync(`./${process.env.EIP_UUID}.${start}`, 'w')
         for (line of res)
             fs.writeSync(fd, JSON.stringify(line) + '\n')
     } catch (err) {
