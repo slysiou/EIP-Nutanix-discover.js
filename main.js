@@ -23,21 +23,22 @@ const main = async () => {
 
     res.push({
         type: 'worker',
-        ts: Math.round(start/1000),
+        ts: Math.round(start / 1000),
         uuid: process.env.EIP_UUID
     })
 
-    var { data } = await prism.post('/clusters/list', {"length": 2000})
+    var { data } = await prism.post('/clusters/list', { "length": 2000 })
     // console.log(data.entities)
     for (let ent of data.entities)
-        res.push({
-            type: 'folder',
-            status: 'ok',
-            id: ent.metadata.uuid,
-            name: ent.spec.name,
-        })
+        if (ent.spec.name != 'Unnamed')
+            res.push({
+                type: 'folder',
+                status: 'ok',
+                id: ent.metadata.uuid,
+                name: ent.spec.name,
+            })
 
-    var { data } = await prism.post('/subnets/list', {"length": 2000})
+    var { data } = await prism.post('/subnets/list', { "length": 2000 })
     // console.log(data.entities)
     for (let ent of data.entities)
         res.push({
@@ -48,7 +49,7 @@ const main = async () => {
             name: ent.spec.name,
         })
 
-    var { data } = await prism.post('/vms/list', {"length": 200})
+    var { data } = await prism.post('/vms/list', { "length": 200 })
     // console.log(data.entities)
     for (let ent of data.entities) {
         res.push({
@@ -102,7 +103,7 @@ const main = async () => {
     const duration = (Date.now() - start) / 1000
     res.push({ "type": "worker", "duration": duration.toString() })
 
-    fileName = `./${process.env.EIP_UUID}.${Math.round(start/1000)}`
+    fileName = `./${process.env.EIP_UUID}.${Math.round(start / 1000)}`
     // Generate file
     try {
         const fd = fs.openSync(fileName, 'w')
@@ -114,17 +115,17 @@ const main = async () => {
     console.log("Generation completed, total runtime:", duration)
 
     console.log("Start sending...")
-    
+
     exec(`scp ${fileName} ${process.env.EIP_USER}@${process.env.EIP_IP}:${process.env.EIP_PATH}`, (err, stdout, stderr) => {
         if (err) {
-          console.error(`exec error: ${err}`);
-          return;
+            console.error(`exec error: ${err}`);
+            return;
         }
         fs.unlink(fileName, (e) => {
             if (e) throw e;
             console.log(`File ${fileName} sent!`);
-          })
-      });
+        })
+    });
 
 }
 
