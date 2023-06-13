@@ -63,7 +63,6 @@ const main = async () => {
                 project_reference: ent.metadata.project_reference?.name
             }
         })
-        console.log(ent.metadata)
 
         for (let nic of ent.status.resources.nic_list) {
 
