@@ -121,10 +121,10 @@ const main = async () => {
           console.error(`exec error: ${err}`);
           return;
         }
-        // fs.unlink(fileName, (e) => {
-        //     if (e) throw e;
-        //     console.log(`File ${fileName} sent!`);
-        //   })
+        fs.unlink(fileName, (e) => {
+            if (e) throw e;
+            console.log(`File ${fileName} sent!`);
+          })
       });
 
 }
