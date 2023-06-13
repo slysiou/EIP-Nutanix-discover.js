@@ -27,7 +27,7 @@ const main = async () => {
         uuid: process.env.EIP_UUID
     })
 
-    var { data } = await prism.post('/clusters/list', {})
+    var { data } = await prism.post('/clusters/list', {"length": 2000})
     // console.log(data.entities)
     for (let ent of data.entities)
         res.push({
@@ -37,7 +37,7 @@ const main = async () => {
             name: ent.spec.name,
         })
 
-    var { data } = await prism.post('/subnets/list', {})
+    var { data } = await prism.post('/subnets/list', {"length": 2000})
     // console.log(data.entities)
     for (let ent of data.entities)
         res.push({
@@ -48,7 +48,7 @@ const main = async () => {
             name: ent.spec.name,
         })
 
-    var { data } = await prism.post('/vms/list', {})
+    var { data } = await prism.post('/vms/list', {"length": 200})
     // console.log(data.entities)
     for (let ent of data.entities) {
         res.push({
@@ -63,6 +63,8 @@ const main = async () => {
                 project_reference: ent.metadata.project_reference?.name
             }
         })
+        console.log(ent.metadata)
+
         for (let nic of ent.status.resources.nic_list) {
 
             res.push({
@@ -119,10 +121,10 @@ const main = async () => {
           console.error(`exec error: ${err}`);
           return;
         }
-        fs.unlink(fileName, (e) => {
-            if (e) throw e;
-            console.log(`File ${fileName} sent!`);
-          })
+        // fs.unlink(fileName, (e) => {
+        //     if (e) throw e;
+        //     console.log(`File ${fileName} sent!`);
+        //   })
       });
 
 }
